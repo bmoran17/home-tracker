@@ -24,4 +24,13 @@ In my tracker I would have a section for food, and inside food section I would h
 | :coffee: | Lavazza Coffee Beans | [Amazon](https://www.amazon.com/dp/B016RY0LWO?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_2&th=1) | 4 Bags | 04/23 | :no_entry_sign: |
 | :cow2: | Milk | n/a | 1 gallon | 05/23 | :white_check_mark: |
 
-Now, I can look up my coffee items and noticed that I should buy milk since I have a gallon that was opened in 05/23.  
+Now, I can look up my coffee items and noticed that I should buy milk since I have a gallon that was opened in 05/23. 
+
+## July 2, 2025
+**How to Implement:**
+The application will use web storage, specifically sessionStoage to store and retrieve items that are being kept track off.
+
+For now, the website will act as a "playground" for users to add and remove items from different provided categories.
+
+**Future Ideas**
+- Option to add items to a "To Buy" list
