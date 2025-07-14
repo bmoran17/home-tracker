@@ -37,3 +37,10 @@ For now, the website will act as a "playground" for users to add and remove item
 
 ## July 13, 2025 
 - Started react app with express server
+- Added 3 routes: HomeTrackerPage, NotesPage, NotFoundPage
+
+
+## July 14, 2025
+- Added another react app for express server
+App1: Home Tracker (Current Project) => /app1
+App2: Not Decided => /app2
