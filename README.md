@@ -34,3 +34,6 @@ For now, the website will act as a "playground" for users to add and remove item
 
 **Future Ideas**
 - Option to add items to a "To Buy" list
+
+## July 13, 2025 
+- Started react app with express server
