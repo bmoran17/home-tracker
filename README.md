@@ -42,5 +42,9 @@ For now, the website will act as a "playground" for users to add and remove item
 
 ## July 14, 2025
 - Added another react app for express server
-App1: Home Tracker (Current Project) => /app1
-App2: Not Decided => /app2
+    - App1: Home Tracker (Current Project) => /app1
+    - App2: Not Decided => /app2
+- Added /projects routing to react apps
+    - App1: /project/app1
+    - App2: /project/app2
+- Started working on home tracker layout
