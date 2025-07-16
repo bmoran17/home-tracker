@@ -48,3 +48,9 @@ For now, the website will act as a "playground" for users to add and remove item
     - App1: /project/app1
     - App2: /project/app2
 - Started working on home tracker layout
+
+## July 15, 2025
+- Completed basic layout of tracker table for a room
+- Created Room component to create tables
+- Example of basic table: 
+    ![basic table](basic_table.png)
