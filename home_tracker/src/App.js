@@ -5,7 +5,7 @@ import { NotFoundPage } from './pages/NotFoundPage';
 
 export const App = () => {
   return (
-    <Router basename='/projects/app1'>
+    <Router basename='/projects/home_tracker'>
       <Routes>
         <Route path="/" element={<HomeTrackerPage />} />
         <Route path="/notes" element={<NotesPage />} />
