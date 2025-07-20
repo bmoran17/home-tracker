@@ -53,4 +53,18 @@ For now, the website will act as a "playground" for users to add and remove item
 - Completed basic layout of tracker table for a room
 - Created Room component to create tables
 - Example of basic table: 
-    ![basic table](basic_table.png)
+    ![basic table](./progress/basic_table.png)
+    
+## July 19, 2025
+- Working on tracker table:
+    - wrapped table in a form tag
+    - currently passing sample data to Room component to make tracker table display sample data
+    - bottom of table displays input cells to add items to tracker
+    - form is submitted when save button is clicked
+- Currently Looks: 
+    ![basic table](./progress/basic_table_form.png)
+- Problems:
+    - when save button clicked, empty row is rendered
+    - when clicked a 2nd time, new row is added under empty one with form values inputted
+    - when adding new values to submit form again, it just renders empty rows
+    => issues with rendering properly
