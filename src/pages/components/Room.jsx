@@ -1,10 +1,26 @@
 import "./Room.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export default function Room(props) {
     const room = props.room;
     
     const [data, setData] = useState(props.data);
+    
+    const photoRef = useRef(null);
+    const nameRef = useRef(null);
+    const linkRef = useRef(null);
+    const quantityRef = useRef(null);
+    const lastPurchaseRef = useRef(null);
+    const needRef = useRef(null);
+    
+    const [newPhoto, setNewPhoto] = useState("");
+    const [newName, setNewName] = useState("");   
+    const [newLink, setNewLink] = useState("");
+    const [newQuantity, setNewQuantity] = useState("");
+    const [newLastPurchase, setNewLastPurchase] = useState("");
+    const [newNeed, setNeed] = useState(false);
+    const [save, setSave] = useState(false);
+        
     const [newItem, setNewItem] = useState({
         photo: "",
         name: "",
@@ -14,57 +30,74 @@ export default function Room(props) {
         need: false,
     });
     
-    
     useEffect(() => {
-        const newItemForm = document.getElementById("addItemForm");
-        newItemForm.addEventListener("submit", handleSave);
-        renderTable()
-    }, [data]);
+        console.log("begin => ", data);
+        
+        let key = `item${Object.keys(data).length + 1}`;
+        console.log(key);
+        // renderTable()
+        
+        // key doesnt exist & button clicked => add data
+        if (!(key in data) && save === true) {
+            setSave(false);
+            setData({
+            ...data,
+            [key]: newItem
+            }); 
+        }
+            
+    }, [newItem, data]); 
     
-    
-    function handleSave(event) {
-        event.preventDefault();
-        const newItemForm = document.getElementById("addItemForm");
-        const inputs = document.querySelectorAll('input');
+    function handleSave() {
+        const updatedPhoto = photoRef.current.value;
+        const updatedName = nameRef.current.value;
+        const updatedLink = linkRef.current.value;
+        const updatedQuantity = quantityRef.current.value;
+        const updatedLastPurchase = lastPurchaseRef.current.value;
+        const updatedNeed = needRef.current.checked;
+  
+        setNewPhoto(updatedPhoto);
+        setNewName(updatedName);
+        setNewLink(updatedLink);
+        setNewQuantity(updatedQuantity);
+        setNewLastPurchase(updatedLastPurchase);
+        setNeed(updatedNeed);
+        
+        setSave(true);
         
         setNewItem({
-            ...newItem, 
-            photo: inputs[0].value,
-            name: inputs[1].value,
-            link: inputs[2].value,
-            quantity: inputs[3].value,
-            lastPurchase: inputs[4].value,
-            need: inputs[5].value
-        })
-        
-        newItemForm.reset();
-        
-        setData({
-            ...data,
-            [`item${Object.keys(data).length + 1}`]: newItem
+            ...newItem,
+            photo: updatedPhoto,
+            name: updatedName,
+            link: updatedLink,
+            quantity: updatedQuantity,
+            lastPurchase: updatedLastPurchase,
+            need: updatedNeed
         });
         
-        console.log("data ", data);
+        photoRef.current.value = "";
+        nameRef.current.value = "";
+        linkRef.current.value = "";
+        quantityRef.current.value = "";
+        lastPurchaseRef.current.value = "";
+        needRef.current.checked = false;
     }
-    
+
     function renderTable() {
         return (
             Object.entries(data).map(([key, item]) => (
-                    <tr key={key}>
-                        <td><img src={item.photo} alt={item.name} width={50} height={50} /></td>
-                        <td>{item.name}</td>
-                        <td><a href={item.link}>click</a></td>
-                        <td>{item.quantity}</td>
-                        <td>{item.lastPurchase}</td>
-                        <td>{item.need ? "Yes" : "No"}</td>
-                        {/* <td><button className="editBtn" id={`${key}`}>Edit</button></td> */}
-                    </tr>
+                <tr key={key}>
+                    <td><img src={item.photo} alt={item.name} width={50} height={50} /></td>
+                    <td>{item.name}</td>
+                    <td><a href={item.link}>click</a></td>
+                    <td>{item.quantity}</td>
+                    <td>{item.lastPurchase}</td>
+                    <td>{item.need ? "Yes" : "No"}</td>
+                    <td><button className="editBtn" >Edit</button></td>
+                </tr>
                 ))
         )
     }
-    
-
-    
     
     // const editBtns = document.querySelectorAll('.editBtn');
     // editBtns.forEach(btn => {
@@ -86,7 +119,6 @@ export default function Room(props) {
         <>
         <h2>{room} Items</h2>
         
-        <form id="addItemForm">
         <table>
             <thead>
             <tr>
@@ -102,18 +134,46 @@ export default function Room(props) {
                 {renderTable()}
                 
                 <tr>
-                    <td><input name="pic" placeholder="pic" /></td>   
-                    <td><input name="itemName" placeholder="Tajin" /></td> 
-                    <td><input name="itemLink" placeholder="www.tajin.com" /></td> 
-                    <td><input name="itemQuantity" placeholder="3 small bottles" /></td>   
-                    <td><input name="itemLastPurchased" placeholder="12-25-2006" /></td>    
-                    <td><input name="itemNeeded" type="checkbox" /></td> 
-                    <td><input type="submit" value="Save"></input></td>
+                    <td><input 
+                        //validate input with JS
+                        name="pic" 
+                        placeholder="pic" 
+                        type="text"  
+                        ref={photoRef} />
+                    </td>   
+                    <td><input 
+                        name="itemName" 
+                        placeholder="Tajin" 
+                        type="text"
+                        ref={nameRef} />
+                    </td> 
+                    <td><input 
+                        name="itemLink" 
+                        placeholder="www.tajin.com" 
+                        type="url"
+                        ref={linkRef} />
+                    </td> 
+                    <td><input 
+                        name="itemQuantity" 
+                        placeholder="3 small bottles"
+                        type="text"
+                        ref={quantityRef} />
+                    </td>
+                    <td><input 
+                        name="itemLastPurchased" 
+                        placeholder="12-25-2006"
+                        type="date"
+                        ref={lastPurchaseRef} />
+                    </td>    
+                    <td><input 
+                        name="itemNeeded" 
+                        type="checkbox" 
+                        ref={needRef} />
+                    </td> 
+                    <td><button onClick={handleSave}>Save</button></td>
                 </tr>
             </tbody>  
         </table>
-         </form>
-        {/* <button onClick={addItem} type="submit">Add Item</button> */}
         </>  
     );
 } 
