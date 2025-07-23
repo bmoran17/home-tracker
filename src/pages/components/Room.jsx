@@ -2,42 +2,37 @@ import "./Room.css";
 import React, { useState, useEffect, useRef } from "react";
 
 export default function Room(props) {
+    // data being pass
     const room = props.room;
-    
     const [data, setData] = useState(props.data);
-    
-    const photoRef = useRef(null);
-    const nameRef = useRef(null);
-    const linkRef = useRef(null);
-    const quantityRef = useRef(null);
-    const lastPurchaseRef = useRef(null);
-    const needRef = useRef(null);
-    
-    const [newPhoto, setNewPhoto] = useState("");
-    const [newName, setNewName] = useState("");   
-    const [newLink, setNewLink] = useState("");
-    const [newQuantity, setNewQuantity] = useState("");
-    const [newLastPurchase, setNewLastPurchase] = useState("");
-    const [newNeed, setNeed] = useState(false);
     const [save, setSave] = useState(false);
-        
+    
+    // tracks which row is being edit
+    const [editKey, setEditKey] = useState(null); 
+    // tracks item being edited
+    const [editItem, setEditItem] = useState({ 
+        name: "", 
+        quantity: "", 
+        lastPurchase: "", 
+        need: false 
+    });
+    // tracks new item being added 
     const [newItem, setNewItem] = useState({
-        photo: "",
         name: "",
-        link: "",
         quantity: "",
         lastPurchase: "",
         need: false,
     });
     
+    const nameRef = useRef(null);
+    const quantityRef = useRef(null);
+    const lastPurchaseRef = useRef(null);
+    const needRef = useRef(null);
+    
     useEffect(() => {
-        console.log("begin => ", data);
+        const key = `item${Object.keys(data).length + 1}`;
         
-        let key = `item${Object.keys(data).length + 1}`;
-        console.log(key);
-        // renderTable()
-        
-        // key doesnt exist & button clicked => add data
+        // key does not exist & button clicked => add data
         if (!(key in data) && save === true) {
             setSave(false);
             setData({
@@ -45,75 +40,127 @@ export default function Room(props) {
             [key]: newItem
             }); 
         }
-            
+        
+        console.log("end: ", data);
     }, [newItem, data]); 
     
     function handleSave() {
-        const updatedPhoto = photoRef.current.value;
         const updatedName = nameRef.current.value;
-        const updatedLink = linkRef.current.value;
         const updatedQuantity = quantityRef.current.value;
         const updatedLastPurchase = lastPurchaseRef.current.value;
         const updatedNeed = needRef.current.checked;
-  
-        setNewPhoto(updatedPhoto);
-        setNewName(updatedName);
-        setNewLink(updatedLink);
-        setNewQuantity(updatedQuantity);
-        setNewLastPurchase(updatedLastPurchase);
-        setNeed(updatedNeed);
+        
+        const cont = validateInputs(updatedName, updatedQuantity);
+        if (!cont) return
         
         setSave(true);
         
         setNewItem({
             ...newItem,
-            photo: updatedPhoto,
             name: updatedName,
-            link: updatedLink,
             quantity: updatedQuantity,
             lastPurchase: updatedLastPurchase,
             need: updatedNeed
         });
         
-        photoRef.current.value = "";
         nameRef.current.value = "";
-        linkRef.current.value = "";
         quantityRef.current.value = "";
         lastPurchaseRef.current.value = "";
         needRef.current.checked = false;
+    }
+    
+    function validateInputs(name, quantity) {
+        if (name === "" && quantity === "") {
+            alert("Please insert a name and quantity to track item!");
+            return false;
+        } else if (name === "") {
+            alert("Please insert a name for item to track!");
+            return false;
+        } else if (quantity === "") {
+            alert("Please insert a current quantity available for " + name + "!");
+            return false;
+        }
+        return true;
+    }
+    
+    function handleEdit(key) {
+        const item = data[key]
+        setEditKey(key);
+        setEditItem(item);
+    }
+
+    function handleEditChange(attribute, value) {
+        setEditItem(prev => ({
+            ...prev,
+            [attribute]: value
+        }));
+    }
+    
+    function handleEditSave() {
+        const cont = validateInputs(editItem.name, editItem.quantity)
+        if (!cont) return;
+        
+        setData(prevData => ({
+            ...prevData,
+            [editKey]: editItem
+        }));
+
+        setEditKey(null);
     }
 
     function renderTable() {
         return (
             Object.entries(data).map(([key, item]) => (
                 <tr key={key}>
-                    <td><img src={item.photo} alt={item.name} width={50} height={50} /></td>
-                    <td>{item.name}</td>
-                    <td><a href={item.link}>click</a></td>
-                    <td>{item.quantity}</td>
-                    <td>{item.lastPurchase}</td>
-                    <td>{item.need ? "Yes" : "No"}</td>
-                    <td><button className="editBtn" >Edit</button></td>
-                </tr>
-                ))
-        )
+                    { editKey === key ? (
+                        <>
+                        <td>
+                            <input
+                                type="text"
+                                value={editItem.name}
+                                onChange={(e) => handleEditChange("name", e.target.value)}
+                                ref={nameRef}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="text"
+                                value={editItem.quantity}
+                                onChange={(e) => handleEditChange("quantity", e.target.value)}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="date"
+                                value={editItem.lastPurchase}
+                                onChange={(e) => handleEditChange("lastPurchase", e.target.value)}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="checkbox"
+                                checked={editItem.need}
+                                onChange={(e) => handleEditChange("need", e.target.checked)}
+                            />
+                        </td>
+                        <td>
+                            <button onClick={handleEditSave}>Save</button>
+                            <button onClick={() => setEditKey(null)}>Cancel</button>
+                        </td>
+                    </>
+                    ) : (
+                        <>
+                            <td>{item.name}</td>
+                            <td>{item.quantity}</td>
+                            <td>{item.lastPurchase}</td>
+                            <td>{item.need ? "Yes" : "No"}</td>
+                            <td><button onClick={() => handleEdit(key)}>Edit</button></td>
+                        </>
+                    )
+                }
+            </tr>
+        )))
     }
-    
-    // const editBtns = document.querySelectorAll('.editBtn');
-    // editBtns.forEach(btn => {
-    //     btn.addEventListener('click',function(event) {
-    //         console.log('Button Clicked:', btn.id);
-    //     })
-    // });
-    
-    // function addItem() {
-    //     const form = document.getElementById("addItemForm");
-    //     if (form.style.display === "none") {
-    //         form.style.display = "block";
-    //     } else {
-    //         form.style.display = "none";
-    //     }
-    // }
     
     return(
         <>
@@ -122,9 +169,7 @@ export default function Room(props) {
         <table>
             <thead>
             <tr>
-                <th>Photo</th>
                 <th>Item</th>
-                <th>Link</th>
                 <th>Quantity</th>
                 <th>Last Purchase</th>
                 <th>Need</th>
@@ -135,23 +180,10 @@ export default function Room(props) {
                 
                 <tr>
                     <td><input 
-                        //validate input with JS
-                        name="pic" 
-                        placeholder="pic" 
-                        type="text"  
-                        ref={photoRef} />
-                    </td>   
-                    <td><input 
                         name="itemName" 
                         placeholder="Tajin" 
                         type="text"
                         ref={nameRef} />
-                    </td> 
-                    <td><input 
-                        name="itemLink" 
-                        placeholder="www.tajin.com" 
-                        type="url"
-                        ref={linkRef} />
                     </td> 
                     <td><input 
                         name="itemQuantity" 

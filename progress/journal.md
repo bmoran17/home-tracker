@@ -56,4 +56,13 @@ For now, the website will act as a "playground" for users to add and remove item
         - unsafe to add links (for now at least)
     - add option to add item to list
     - maybe change photo to emoji or just get rid of column for now
-    
+
+## July 22, 2025
+- got rid of link and photo option
+- added input validation so item name and quantity are required when adding a new item
+    - alert messsage displayed when missing either one or both
+- rows are editable
+    - edit button click for row and it turns into editable row
+    - save & cancel button appear when editing row
+    - includes input validation 
+- adding a row and editing row works now
