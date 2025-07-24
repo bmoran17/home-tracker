@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 export default function Room(props) {
     // data being pass
     const room = props.room;
-    const [data, setData] = useState(props.data);
+    const [data, setData] = useState(props.data || null);
     const [save, setSave] = useState(false);
     
     // tracks which row is being edit
@@ -30,18 +30,27 @@ export default function Room(props) {
     const needRef = useRef(null);
     
     useEffect(() => {
-        const key = `item${Object.keys(data).length + 1}`;
+        const storedData = localStorage.getItem(room);
+        if (storedData) {
+            const test = JSON.parse(storedData);
+            setData(test)
+            console.log(test)
+        }
         
+    }, []);
+
+    useEffect(() => {
+        const key = `item${Object.keys(data).length + 1}`;
         // key does not exist & button clicked => add data
         if (!(key in data) && save === true) {
             setSave(false);
             setData({
             ...data,
             [key]: newItem
-            }); 
+            });
         }
-        
-        console.log("end: ", data);
+        // store data object in local storage
+        localStorage.setItem(room, JSON.stringify(data))
     }, [newItem, data]); 
     
     function handleSave() {
@@ -109,7 +118,8 @@ export default function Room(props) {
     }
 
     function renderTable() {
-        return (
+        return ( 
+            // only if data exists!!!
             Object.entries(data).map(([key, item]) => (
                 <tr key={key}>
                     { editKey === key ? (
@@ -159,7 +169,8 @@ export default function Room(props) {
                     )
                 }
             </tr>
-        )))
+            ))
+        )
     }
     
     return(

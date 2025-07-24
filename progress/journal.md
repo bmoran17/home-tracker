@@ -66,3 +66,14 @@ For now, the website will act as a "playground" for users to add and remove item
     - save & cancel button appear when editing row
     - includes input validation 
 - adding a row and editing row works now
+
+## July 23, 2025
+- added local storage
+    - can save data object for each room
+    - can retrieve data object to render room component with it
+- problems:
+    - when editing row => need to add delete row functionality
+    - need to render table when data is not null else empty table
+    - work on wireframes!!
+- Example of local storage: 
+    ![local storage](./local_Storage.png)
