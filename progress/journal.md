@@ -77,3 +77,11 @@ For now, the website will act as a "playground" for users to add and remove item
     - work on wireframes!!
 - Example of local storage: 
     ![local storage](./local_Storage.png)
+    
+## July 24, 2025
+- working on wireframes in Figma
+    - started on mobile version
+    - home page, room page, sub-room page
+
+=> [Wireframes Link](https://www.figma.com/design/8sW1TzInPpOAzrW5jv6Jfx/Untitled?node-id=2-226&t=FrnRZQfhIYSe8Ccg-0)
+    
