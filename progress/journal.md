@@ -84,4 +84,11 @@ For now, the website will act as a "playground" for users to add and remove item
     - home page, room page, sub-room page
 
 => [Wireframes Link](https://www.figma.com/design/8sW1TzInPpOAzrW5jv6Jfx/Untitled?node-id=2-226&t=FrnRZQfhIYSe8Ccg-0)
-    
+
+## July 27, 2025
+- Wireframes draft completed
+- Installed bootstrap
+- Added Header component
+    - Navbar: responsive navigation header 
+    - still need to fully customize it
+    - includes app title & links to home, about app, buy list

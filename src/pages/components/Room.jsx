@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 export default function Room(props) {
     // data being pass
     const room = props.room;
-    const [data, setData] = useState(props.data || null);
+    const [data, setData] = useState(props.data );
     const [save, setSave] = useState(false);
     
     // tracks which row is being edit

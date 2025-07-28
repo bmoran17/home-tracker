@@ -45,7 +45,7 @@ export const HomeTrackerPage = () => {
         <Room data={pantryItems} room={roomName1}/>
         <Room data={cabinetItems} room={roomName2}/>
         {/* data will be null => need to fix */}
-        <Room room="fridge"/>
+        {/* <Room room="fridge"/>  */}
         </>
     );
 }

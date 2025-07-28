@@ -28,3 +28,5 @@ Now, I can look up my coffee items and noticed that I should buy milk since I ha
 
 ## Progress Journal: [Link](./progress/journal.md)
 - includes daily progress of project from starting to current progress
+
+## Current Wireframes: [Wireframes Link](https://www.figma.com/design/8sW1TzInPpOAzrW5jv6Jfx/Untitled?node-id=2-226&t=FrnRZQfhIYSe8Ccg-0)
