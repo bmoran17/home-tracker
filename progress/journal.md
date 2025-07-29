@@ -92,3 +92,9 @@ For now, the website will act as a "playground" for users to add and remove item
     - Navbar: responsive navigation header 
     - still need to fully customize it
     - includes app title & links to home, about app, buy list
+
+## July 28, 2025
+- finished Header component
+    - navbar is responsive
+    - added collapsable functionality for small screens
+    - added corresponding links to navbar
