@@ -1,0 +1,15 @@
+#title {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#ind-category {
+  border: 1px solid black;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

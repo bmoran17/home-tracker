@@ -3,6 +3,7 @@ import { NotesPage } from './pages/NotesPage';
 import { HomeTrackerPage } from './pages/HomeTrackerPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { Header } from './pages/components/Header';
+import { Home } from './pages/components/Home';
 
 export const App = () => {
   return (
@@ -11,7 +12,8 @@ export const App = () => {
 
     <Router basename='/projects/home_tracker'>
       <Routes>
-        <Route path="/" element={<HomeTrackerPage />} />
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/" element={<HomeTrackerPage />} /> */}
         <Route path="/notes" element={<NotesPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

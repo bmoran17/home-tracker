@@ -98,3 +98,6 @@ For now, the website will act as a "playground" for users to add and remove item
     - navbar is responsive
     - added collapsable functionality for small screens
     - added corresponding links to navbar
+- started Home page
+    - added components
+    - currently rendenring array of categories to test it
