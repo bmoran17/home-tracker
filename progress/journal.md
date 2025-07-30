@@ -101,3 +101,7 @@ For now, the website will act as a "playground" for users to add and remove item
 - started Home page
     - added components
     - currently rendenring array of categories to test it
+    
+## July 29, 2025
+- added local storage to Home page
+- fixed category circles
