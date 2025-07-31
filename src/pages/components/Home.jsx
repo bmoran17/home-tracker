@@ -3,20 +3,40 @@ import "./Home.css"
 
 export const Home = () => {
   const categories = ["Kitchen", "Bedroom", "Skincare", "Cleaning", "Bathroom", "Cats"];
-  const [data, setData] = useState();
-  
+  const [data, setData] = useState(null);
+  const [addCategory, setAddCategory] = useState();
   useEffect(() => {
     if (localStorage.getItem("myHome") === null) {
-      console.log("DNE")
+      // create local storage
       localStorage.setItem("myHome", 0);
     } else {
-      setData(localStorage.getItem("myHome"));
+      const retrievedCategories = JSON.parse(localStorage.getItem('myHome'));
+      setData(retrievedCategories);
     }
   }, []);
   
   useEffect(() => {
-    console.log(data);
+   
+    if (data !== null) {
+      console.log(typeof data);
+      data.forEach(element => console.log("=> ", element));
+      renderCategories(data);
+    }
   }, [data]);
+  
+  function renderCategories(categories) {
+    return (
+      // 2 options => empty one or exisitng one
+      <div id="categories-container">
+          <>redner items</>
+          {data.forEach(element => (
+            <a id="category-link" href={`/${element}`}>
+              <div id="ind-category">{element}</div> 
+            </a>
+          ))}
+       </div>
+    )
+  }
   
   return (
     <main>
@@ -41,13 +61,8 @@ export const Home = () => {
         </button>
       </div>
       
-      <div id="categories-container">
-        {categories.map((category) => (
-          <a id="category-link" href={`/${category}`}>
-            <div id="ind-category">{category}</div> 
-          </a>
-        ))}
-      </div>
+      {renderCategories(data)}
+       
     </main>
   )
 }

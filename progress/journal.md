@@ -105,3 +105,17 @@ For now, the website will act as a "playground" for users to add and remove item
 ## July 29, 2025
 - added local storage to Home page
 - fixed category circles
+
+## July 30, 2025
+- working in Home component 
+- configuring view of what to render in home categories
+
+<u>Details of Home component, what needs to be done:</u>
+- using local storage object "MyHome" to contain list of categories :white_check_mark:
+    - when it exists & has items => render circles with names on it
+    - when it DNE or exists with no items => render message to guide user to add button
+- when add btn clicked => circle is render with input, delete, save option
+- when minus btn clicked => circles are render with delete option
+    - maybe add edit btn & combine with delete  
+    - circles are render with delete option and editable input
+    - same as when add btn is added basically but rendering existing data in input to edit
