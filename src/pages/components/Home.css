@@ -40,7 +40,7 @@ main {
   /* margin: 50px; */
 }
 
-#ind-category {
+.ind-category {
   border: 1px solid black;
   width: 70px;
   height: 70px;
@@ -51,4 +51,12 @@ main {
   align-items: center;
   
   font-size: small;
+}
+
+
+.ind-category > input {
+  box-sizing: border-box;
+  width: 80%;
+  height: 30%;
+  border: 1 px solid red;
 }

@@ -5,37 +5,68 @@ export const Home = () => {
   const categories = ["Kitchen", "Bedroom", "Skincare", "Cleaning", "Bathroom", "Cats"];
   const [data, setData] = useState(null);
   const [addCategory, setAddCategory] = useState();
+  
   useEffect(() => {
-    if (localStorage.getItem("myHome") === null) {
+    // create local storage object for the first time
+    if (localStorage.getItem("hometracker") === null) {
       // create local storage
-      localStorage.setItem("myHome", 0);
+      const localObject = {
+        "name": "myHome",
+        "categories": { }
+      }
+      
+      // convert object to a JSON string
+      const objectAsString = JSON.stringify(localObject)
+      // store string in local storage
+      localStorage.setItem("hometracker", objectAsString);
+      setData(localObject)
+      // local storage object exists already
     } else {
-      const retrievedCategories = JSON.parse(localStorage.getItem('myHome'));
-      setData(retrievedCategories);
+      const retrievedData = JSON.parse(localStorage.getItem("hometracker"));
+      setData(retrievedData);
     }
   }, []);
   
   useEffect(() => {
-   
     if (data !== null) {
-      console.log(typeof data);
-      data.forEach(element => console.log("=> ", element));
-      renderCategories(data);
+      renderCategories(data.categories);
+      // data.forEach(element => console.log("=> ", element));
     }
   }, [data]);
   
   function renderCategories(categories) {
-    return (
-      // 2 options => empty one or exisitng one
-      <div id="categories-container">
-          <>redner items</>
-          {data.forEach(element => (
-            <a id="category-link" href={`/${element}`}>
-              <div id="ind-category">{element}</div> 
-            </a>
-          ))}
-       </div>
-    )
+    categories = {
+      // "kitchen" : ["pantry", "cabinet", "freezer", "fridge", "coffee"],
+      // "other" : ["subcat", "subcat", "subcat"]
+    }
+    const allCategories = Object.keys(categories);
+    if (allCategories.length > 1 ) {
+      return (
+        <div id="categories-container">
+          {allCategories.map(category => {
+            return (
+              <a id="category-link" href={`/${category}`}>
+                <div className="ind-category">{category}</div> 
+              </a>
+            )
+          } )}
+        </div>
+      )
+    } else {
+      console.log("here")
+      return (
+        <div id="categories-container"> 
+        <div className="ind-category">
+          <input 
+          placeholder="Category"
+          />
+          <button>
+            <img width="17" height="17" src="https://img.icons8.com/material-outlined/24/checked--v1.png" alt="checked--v1"/>
+          </button>
+        </div>
+        </div>
+      )
+    }
   }
   
   return (
