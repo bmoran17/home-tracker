@@ -34,7 +34,7 @@ main {
   gap: 50px;
 }
 
-#category-link {
+.category-link {
   text-decoration: none;
   color: black;
   /* margin: 50px; */

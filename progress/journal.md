@@ -127,3 +127,21 @@ Home Page:
     ![JSON Object ](./JSON_sample.png)
 - render existing categories or empty circle to add category
     - empty circle needs more working to add category to object
+
+## December 12, 2025
+- changed JSON Hometracker Object
+    - subcategories are nested within categories
+    
+![New JSON Object](./new_JSON_format1.png) ![New JSON Object](./new_JSON_format2.png)
+
+- restructured home page 
+    - categories are shown at home page
+    - when a category is clicked => subcategories are shown
+    - when subcategory is clicked => subcategory items tracker table shown 
+- working on adding home tracker component from old Room component 
+
+| Route | Description |
+| ----------- | ----------- |
+| / | shows categories |
+| /:categoryName | shows subcategories | 
+|/:categoryName/:subcategoryName| shows hometracker details for items in subcategory|
