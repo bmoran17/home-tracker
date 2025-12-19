@@ -10,18 +10,20 @@ import { SubCategory } from './pages/components/SubCategory';
 export const App = () => {
   return (
     <>
-
-    <Router basename='/projects/home_tracker'>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/" element={<HomeTrackerPage />} /> */}
-        <Route path="/notes" element={<NotesPage />} />
-        <Route path="/:categoryname" element={<SubCategory/>} />
-        {/* <Route path="*" element={<NotFoundPage />} /> */}
-        <Route path="/:categoryname/:subcategoryname" element={<HomeTracker />} />
-      </Routes>
-    </Router>
+    <Home />
     </>
+    // <>
+    // <Router basename='/projects/home_tracker'>
+    //   <Header />
+    //   <Routes>
+    //     <Route path="/" element={<Home />} />
+    //     {/* <Route path="/" element={<HomeTrackerPage />} /> */}
+    //     <Route path="/notes" element={<NotesPage />} />
+    //     <Route path="/:categoryname" element={<SubCategory/>} />
+    //     {/* <Route path="*" element={<NotFoundPage />} /> */}
+    //     <Route path="/:categoryname/:subcategoryname" element={<HomeTracker />} />
+    //   </Routes>
+    // </Router>
+    // </>
   );
 };

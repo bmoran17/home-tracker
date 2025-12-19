@@ -1,34 +1,41 @@
 import CategoryPage from "./CategoryPage"
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, Navigate  } from 'react-router-dom';
 // import {data} from './Home'
 
-export const SubCategory = () => {
-    const location = useLocation();
-    const { category, items } = location.state || {};
-    // console.log("items", items)
-    const objectLength = Object.keys(items).length;
-    // console.log("heree", objectLength)
+export const SubCategory = ({data, setSubcategory, category, setView}) => {
+  const subcategories = data[category];
+  const objectLength = Object.keys(subcategories).length;
+  // console.log("check", objectLength);
     
-    function renderCategories(categories) {
+  const handleSubcategoryClick = (subcategory) => {
+    setSubcategory(subcategory);
+    setView("hometracker");
+  }
+
+    function renderCategories(category) {
     if (objectLength > 0 ) {
-      const keysArray = Object.keys(items);
-      // console.log("test", keysArray)
+      const keysArray = Object.keys(subcategories);
+      console.log("test", keysArray)
       
       return (
         <div id="categories-container">
-        {keysArray.map(subcategory => {
-          // console.log("category: ", category)
-          // console.log("subcategory: ", { category, items: items[subcategory] })
+         {keysArray.map(category => {
+    //       console.log("subcategory", subcategory)
+    //       console.log("category: ", category)
+    //       // console.log("subcategory: ", { category, items: items[subcategory] })
           
           return (
-            <Link
-              key={subcategory}
-              to={`${subcategory}`}
-              state={{ category, items: items[subcategory] }}
-              className="category-link"
-            >
-              <div className="ind-category">{subcategory}</div>
-            </Link>
+    //         // <Link
+    //         //   key={subcategory}
+    //         //   to={`${subcategory}`}
+    //         //   state={{ category, subcategory, items: items[subcategory]}}
+    //         //   className="category-link"
+    //         // >
+    //         //   <div className="ind-category">{subcategory}</div>
+    //         // </Link>
+            <div onClick={() => handleSubcategoryClick(category)}>
+              {category}
+            </div>
           )
         })}
         </div>
@@ -38,8 +45,8 @@ export const SubCategory = () => {
     return (
         <main>
         <div id='category-header'>
-            <button>Back to my Home</button>
-            <h2 id='title'>My Home</h2>
+            <button onClick={() => {setView("home")}}>Back to Home</button>
+            <h2 id='title'>{category}</h2>
         </div>
 
         <div id="search-bar">
@@ -62,7 +69,7 @@ export const SubCategory = () => {
             </button>
         </div>
 
-        {renderCategories(items)}
+        {renderCategories(subcategories)}
         </main>
     )
 }

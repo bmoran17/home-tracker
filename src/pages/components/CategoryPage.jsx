@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link, useLocation } from 'react-router-dom';
+import { use, useEffect, useState } from 'react';
+import { useParams, Link, useLocation, Navigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-export const CategoryPage = ({data}) => {
-  const categories = data.categories || {};
-  const categoriesLength = Object.keys(categories).length || 0; 
+export const CategoryPage = ({setCategory, data, view, setView}) => {
+  const categoriesLength = Object.keys(data).length || 0; 
 
-  // const categoriesLength = 1;
-  // console.log("test", categoriesLength)
+  const handleCategoryClick = (category) => {
+    setCategory(category)
+    setView("subcategory");
+  }
+
 
   function renderCategories(categories) {
     if (categoriesLength > 0 ) {
@@ -17,14 +20,19 @@ export const CategoryPage = ({data}) => {
         {keysArray.map(category => {
           // console.log({ category, items: categories[category] })
           return (
-            <Link
-              key={category}
-              to={`${category}`}
-              state={{ category, items: categories[category] }}
-              className="category-link"
-            >
-              <div className="ind-category">{category}</div>
-            </Link>
+            // <Link
+            //   key={category}
+            //   to={`${category}`}
+            //   state={{ category, items: categories[category] }}
+            //   className="category-link"
+            // >
+            //   <div className="ind-category">{category}</div>
+            // </Link>
+            // <a href={`/projects/home_tracker/${category}`}>{category}</a>
+            <div onClick={() => handleCategoryClick(category)}>
+              {category}
+            </div>
+
           )
         })}
         </div>
@@ -46,10 +54,12 @@ export const CategoryPage = ({data}) => {
     // }
   }
 
+  // if (!data) return null;
+
   return (
     <main>
       <div id='category-header'>
-        <button>Back to my Home</button>
+        {/* <button>Back to my Home</button> */}
         <h2 id='title'>My Home</h2>
       </div>
 
@@ -73,7 +83,7 @@ export const CategoryPage = ({data}) => {
         </button>
       </div>
 
-      {renderCategories(categories)}
+      {renderCategories(data)}
     </main>
   )
 };
