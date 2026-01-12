@@ -1,4 +1,8 @@
 # Home Tracker Progress Journal
+## Januarary 11, 2025
+- submitting new item to home tracker updates in local storage 
+- turned items into state variable inside home tracker
+  - allows tracker to rerender and show newly added item
 
 ## December 18. 2025
 - got rid of routes completely 

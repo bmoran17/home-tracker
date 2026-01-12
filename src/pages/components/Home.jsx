@@ -6,55 +6,55 @@ import { use } from "react";
 import { SubCategory } from "./SubCategory";
 import { HomeTracker } from "./HomeTracker";
 
-// const test = {
-//   "name": "myHome",
-//   "categories": {
-//     "kitchen" : {
-//         "spices": {
-//           "salt": {
-//             "Quantity": 3,
-//             "LastPurchased": "11/19/1111"
-//           },
-//           "pepper": {
-//             "Quantity": 3,
-//             "LastPurchased": "11/19/1111"
-//           }
-//         },
-//         "fridge": {
-//           "milk": {
-//             "Quantity": 1,
-//             "LastPurchased": "11/19/1111"
-//           },
-//           "eggs": {
-//             "Quantity": 12,
-//             "LastPurchased": "11/19/1111"
-//           }
-//       }
-//     },
-//     "bathroom" : {
-//         "toiletries": {
-//           "toothpaste": {
-//             "Quantity": 2,
-//             "LastPurchased": "11/19/1111"
-//           },
-//           "shampoo": {
-//             "Quantity": 1,
-//             "LastPurchased": "11/19/1111"
-//           }
-//         },
-//         "cleaning supplies": {
-//           "bleach": {
-//             "Quantity": 1,
-//             "LastPurchased": "11/19/1111"
-//           },
-//           "scrub brush": {
-//             "Quantity": 2,
-//             "LastPurchased": "11/19/1111"
-//           }
-//         }
-//     }
-//   }
-// }
+const test = {
+  "name": "myHome",
+  "categories": {
+    "kitchen" : {
+        "spices": {
+          "salt": {
+            "Quantity": 3,
+            "LastPurchased": "11/19/1111"
+          },
+          "pepper": {
+            "Quantity": 3,
+            "LastPurchased": "11/19/1111"
+          }
+        },
+        "fridge": {
+          "milk": {
+            "Quantity": 1,
+            "LastPurchased": "11/19/1111"
+          },
+          "eggs": {
+            "Quantity": 12,
+            "LastPurchased": "11/19/1111"
+          }
+      }
+    },
+    "bathroom" : {
+        "toiletries": {
+          "toothpaste": {
+            "Quantity": 2,
+            "LastPurchased": "11/19/1111"
+          },
+          "shampoo": {
+            "Quantity": 1,
+            "LastPurchased": "11/19/1111"
+          }
+        },
+        "cleaning supplies": {
+          "bleach": {
+            "Quantity": 1,
+            "LastPurchased": "11/19/1111"
+          },
+          "scrub brush": {
+            "Quantity": 2,
+            "LastPurchased": "11/19/1111"
+          }
+        }
+    }
+  }
+}
 
 export const Home = () => {
   const [data, setData] = useState(0);
@@ -72,7 +72,7 @@ export const Home = () => {
       const retrievedData = retrieveLocalObject();
       setData(retrievedData.categories);
     } else {
-      console.log("data exists", data)
+      // console.log("data exists", data)
     }
   }, []);
   
@@ -94,7 +94,7 @@ export const Home = () => {
     } else { 
       // retrieve existing local storage object
       const retrievedDataObject = JSON.parse(localStorage.getItem("hometracker"));
-      console.log("retrievedDataObject", retrievedDataObject)
+      // console.log("retrievedDataObject", retrievedDataObject)
       return retrievedDataObject
     }
   }

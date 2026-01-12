@@ -1,9 +1,13 @@
 import { useLocation, Navigate } from "react-router-dom"
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { render } from "@testing-library/react";
 
 export const HomeTracker = ({data, subcategory, category, setView}) => {
-  const items = data[category][subcategory]
-  console.log(items)
+
+  // const [update, setUpdate] = useState(false);
+  // const items = data[category][subcategory]
+  const [items, setItems] = useState(data[category][subcategory]);
+  // console.log(items)
   const nameRef = useRef(null);
   const quantityRef = useRef(null);
   const lastPurchaseRef = useRef(null);
@@ -11,19 +15,27 @@ export const HomeTracker = ({data, subcategory, category, setView}) => {
 
     const saveNewItem = (name,newItem, category) => {
       const retrievedDataObject = JSON.parse(localStorage.getItem("hometracker"));
-      // const categories = retrievedDataObject.categories;
-      retrievedDataObject.categories[category][subcategory][name] = newItem;
-      localStorage.setItem("hometracker",retrievedDataObject)
-      
-      console.log("retrievedDataObject", retrievedDataObject);
-      
+      // add saved item
+      retrievedDataObject.categories[category][subcategory][name]= newItem;
+      const objectAsString = JSON.stringify(retrievedDataObject);
+      localStorage.setItem("hometracker",objectAsString);
+      // console.log("retrievedDataObject", retrievedDataObject);
+      // setUpdate(!update);
+      setItems(retrievedDataObject.categories[category][subcategory]);
+    }
+    const editItem = (name, item) => {
+      console.log("Editing item...", name, item);
+      // implement edit functionality here
+
     }
 
-    // console.log("category", category);
-    // console.log("subcategory", subcategory);
-    // console.log("items", items);  
-    
+    useEffect(() => {
+      // re-render component when new item is added
+
+    }, [items]); 
+
     const renderItems = () => {
+      console.log("rendering items...");
       return (
         <tbody>
           {Object.entries(items).map(([key, item]) => {
@@ -34,7 +46,9 @@ export const HomeTracker = ({data, subcategory, category, setView}) => {
                 <td>{key}</td>
                 <td>{item.Quantity}</td>
                 <td>{item.LastPurchased}</td>
-                <td><button>Edit</button></td>
+                <td><button 
+                      onClick={() => {editItem(key, item)}}>Edit
+                    </button></td>
               </tr>
             )
           })}
