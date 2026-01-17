@@ -1,10 +1,11 @@
 import "react-router-dom";
 import "./Home.css"
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
 import CategoryPage from "./CategoryPage";
-import { use } from "react";
 import { SubCategory } from "./SubCategory";
 import { HomeTracker } from "./HomeTracker";
+import { UserContext } from "./UserContext";
+import updateState from "../../updateState";
 
 const test = {
   "name": "myHome",
@@ -57,27 +58,19 @@ const test = {
 }
 
 export const Home = () => {
-  const [data, setData] = useState(0);
-  const [view, setView] = useState("home");
-  const [category, setCategory] = useState(null);
-  const [subcategory, setSubcategory] = useState(null);
+  const {state, dispatch} = useContext(UserContext)
 
-  
   useEffect(() => {
-    if(view === "home" ) {
-      <CategoryPage data={data} />
-    }
-    if (data === 0) {
+    if (state.data === 0) {
       // returns local storage object or retrieves existing one
       const retrievedData = retrieveLocalObject();
-      setData(retrievedData.categories);
-    } else {
-      // console.log("data exists", data)
+      updateState(dispatch, {type: 'data', value: retrievedData.categories})
     }
   }, []);
-  
 
-  function retrieveLocalObject() {
+  // useEffect(() => { console.log("state.data changed", state.data) }, [state.data]);
+  
+  const retrieveLocalObject = () => {
     // create local storage object for the first time
     if (localStorage.getItem("hometracker") === null) {
       const localObject = {
@@ -101,17 +94,11 @@ export const Home = () => {
   
   return (
     <div>
-      {view === "home" && 
-        <CategoryPage 
-          setCategory={setCategory} 
-          data={data} setView={setView}/>}
+      {state.view === "home" && <CategoryPage />}
 
-      {view === "subcategory" && 
-        <SubCategory data={data} category={category} setSubcategory={setSubcategory} 
-        setView={setView}/>}
+      {state.view === "subcategory" && <SubCategory />}
 
-      {view === "hometracker" && 
-        <HomeTracker data={data} subcategory={subcategory} category={category} setView={setView} />}
+      {state.view === "hometracker" && <HomeTracker />}
     </div>
   );
 }

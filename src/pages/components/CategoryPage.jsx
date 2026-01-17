@@ -1,13 +1,15 @@
-import { use, useEffect, useState } from 'react';
-import { useParams, Link, useLocation, Navigate } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useContext, useReducer } from 'react';
+import { UserContext, UserProvider } from './UserContext';
 
-export const CategoryPage = ({setCategory, data, view, setView}) => {
-  const categoriesLength = Object.keys(data).length || 0; 
+export const CategoryPage = () => {
+  const {state, dispatch} = useContext(UserContext)
+
+  const categoriesLength = Object.keys(state.data).length || 0; 
 
   const handleCategoryClick = (category) => {
-    setCategory(category)
-    setView("subcategory");
+    // setCategory(category)
+    // setView("subcategory");
   }
 
 
@@ -20,15 +22,6 @@ export const CategoryPage = ({setCategory, data, view, setView}) => {
         {keysArray.map(category => {
           // console.log({ category, items: categories[category] })
           return (
-            // <Link
-            //   key={category}
-            //   to={`${category}`}
-            //   state={{ category, items: categories[category] }}
-            //   className="category-link"
-            // >
-            //   <div className="ind-category">{category}</div>
-            // </Link>
-            // <a href={`/projects/home_tracker/${category}`}>{category}</a>
             <div onClick={() => handleCategoryClick(category)}>
               {category}
             </div>
@@ -54,7 +47,7 @@ export const CategoryPage = ({setCategory, data, view, setView}) => {
     // }
   }
 
-  // if (!data) return null;
+  // if (!state.data) return null;
 
   return (
     <main>
@@ -83,7 +76,7 @@ export const CategoryPage = ({setCategory, data, view, setView}) => {
         </button>
       </div>
 
-      {renderCategories(data)}
+      {renderCategories(state.data)}
     </main>
   )
 };
