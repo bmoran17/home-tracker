@@ -1,15 +1,19 @@
+import { useContext } from "react";
+import { UserContext } from "./UserContext";
 import CategoryPage from "./CategoryPage"
 import { useLocation, Link, Navigate  } from 'react-router-dom';
+import updateState from "../../updateState";
+import { type } from "@testing-library/user-event/dist/type";
 // import {data} from './Home'
 
-export const SubCategory = ({data, setSubcategory, category, setView}) => {
-  const subcategories = data[category];
+export const SubCategory = () => {
+  const {state, dispatch} = useContext(UserContext)
+  const subcategories = state.data[state.category];
   const objectLength = Object.keys(subcategories).length;
-  // console.log("check", objectLength);
     
   const handleSubcategoryClick = (subcategory) => {
-    setSubcategory(subcategory);
-    setView("hometracker");
+    updateState(dispatch, {type: 'subcategory', value: subcategory})
+    updateState(dispatch, {type: 'view', value: "hometracker"})
   }
 
     function renderCategories(category) {
@@ -20,19 +24,7 @@ export const SubCategory = ({data, setSubcategory, category, setView}) => {
       return (
         <div id="categories-container">
          {keysArray.map(category => {
-    //       console.log("subcategory", subcategory)
-    //       console.log("category: ", category)
-    //       // console.log("subcategory: ", { category, items: items[subcategory] })
-          
           return (
-    //         // <Link
-    //         //   key={subcategory}
-    //         //   to={`${subcategory}`}
-    //         //   state={{ category, subcategory, items: items[subcategory]}}
-    //         //   className="category-link"
-    //         // >
-    //         //   <div className="ind-category">{subcategory}</div>
-    //         // </Link>
             <div onClick={() => handleSubcategoryClick(category)}>
               {category}
             </div>
@@ -42,34 +34,35 @@ export const SubCategory = ({data, setSubcategory, category, setView}) => {
       )
     } 
     }
+
     return (
-        <main>
-        <div id='category-header'>
-            <button onClick={() => {setView("home")}}>Back to Home</button>
-            <h2 id='title'>{category}</h2>
-        </div>
+      <main>
+      <div id='category-header'>
+        <button onClick={() => { updateState(dispatch, {type: 'view', value: "home"})}}>Back to Home</button>
+        <h2 id='title'>{state.category}</h2>
+      </div>
 
-        <div id="search-bar">
-            <div id="input-container">  
-            <input 
-                type="text" id="category-input" name="category" placeholder="Search Home">
-            </input>
-            </div>
-            <button> 
+      <div id="search-bar">
+        <div id="input-container">  
+          <input 
+              type="text" id="category-input" name="category" placeholder="Search Home">
+          </input>
+          </div>
+          <button> 
             <img width="24" height="24" src="https://img.icons8.com/material-outlined/24/add.png" alt="add" />
-            </button>
+          </button>
 
-            <button>
+          <button>
             <img 
-                width="24" 
-                height="24" 
-                src="https://img.icons8.com/material-outlined/24/minus-sign.png" 
-                alt="minus-sign"
+              width="24" 
+              height="24" 
+              src="https://img.icons8.com/material-outlined/24/minus-sign.png" 
+              alt="minus-sign"
             />
-            </button>
-        </div>
+          </button>
+      </div>
 
-        {renderCategories(subcategories)}
-        </main>
+      {renderCategories(subcategories)}
+      </main>
     )
 }

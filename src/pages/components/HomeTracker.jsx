@@ -1,33 +1,31 @@
 import { useLocation, Navigate } from "react-router-dom"
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { render } from "@testing-library/react";
+import { UserContext } from "./UserContext";
+import updateState from "../../updateState";
 
-export const HomeTracker = ({data, subcategory, category, setView}) => {
+export const HomeTracker = () => {
+  const {state, dispatch} = useContext(UserContext)
+  const [items, setItems] = useState(state.data[state.category][state.subcategory]);
 
-  // const [update, setUpdate] = useState(false);
-  // const items = data[category][subcategory]
-  const [items, setItems] = useState(data[category][subcategory]);
-  // console.log(items)
   const nameRef = useRef(null);
   const quantityRef = useRef(null);
   const lastPurchaseRef = useRef(null);
   const needRef = useRef(null);
 
-    const saveNewItem = (name,newItem, category) => {
-      const retrievedDataObject = JSON.parse(localStorage.getItem("hometracker"));
-      // add saved item
-      retrievedDataObject.categories[category][subcategory][name]= newItem;
-      const objectAsString = JSON.stringify(retrievedDataObject);
-      localStorage.setItem("hometracker",objectAsString);
-      // console.log("retrievedDataObject", retrievedDataObject);
-      // setUpdate(!update);
-      setItems(retrievedDataObject.categories[category][subcategory]);
-    }
-    const editItem = (name, item) => {
-      console.log("Editing item...", name, item);
-      // implement edit functionality here
+  const saveNewItem = (name,newItem, category) => {
+    const retrievedDataObject = JSON.parse(localStorage.getItem("hometracker"));
+    // add saved item
+    retrievedDataObject.categories[state.category][state.subcategory][name]= newItem;
+    const objectAsString = JSON.stringify(retrievedDataObject);
+    localStorage.setItem("hometracker",objectAsString);
+    setItems(retrievedDataObject.categories[state.category][state.subcategory]);
+  }
+  const editItem = (name, item) => {
+    console.log("Editing item...", name, item);
+    // implement edit functionality here
 
-    }
+  }
 
     useEffect(() => {
       // re-render component when new item is added
@@ -39,7 +37,6 @@ export const HomeTracker = ({data, subcategory, category, setView}) => {
       return (
         <tbody>
           {Object.entries(items).map(([key, item]) => {
-            // console.log("item", key, item);
             return (
               <tr key={key}>
                 <td><button>Add</button></td>
@@ -48,7 +45,7 @@ export const HomeTracker = ({data, subcategory, category, setView}) => {
                 <td>{item.LastPurchased}</td>
                 <td><button 
                       onClick={() => {editItem(key, item)}}>Edit
-                    </button></td>
+                </button></td>
               </tr>
             )
           })}
@@ -84,7 +81,7 @@ export const HomeTracker = ({data, subcategory, category, setView}) => {
         "LastPurchased": lastPurchase,
         "Need": need
       }
-      saveNewItem(name, newItem, category, subcategory);
+      saveNewItem(name, newItem, state.category, state.subcategory);
 
       nameRef.current.value = "";
       quantityRef.current.value = "";
@@ -94,8 +91,8 @@ export const HomeTracker = ({data, subcategory, category, setView}) => {
 
     return (
       <main>
-        <h2>{subcategory} Items</h2>
-        <button onClick={() => {setView("subcategory")}}>Back to {category}</button>
+        <h2>{state.subcategory} Items</h2>
+        <button onClick={() => {updateState(dispatch, {type: 'view', value: "subcategory"})}}>Back to {state.category}</button>
         <table>
           <thead>
             <tr>
@@ -111,7 +108,7 @@ export const HomeTracker = ({data, subcategory, category, setView}) => {
           {/* </tbody> */}
         </table>
 
-        <p>Add new item to {category}</p>
+        <p>Add new item to {state.category}</p>
         <div>
           <input 
             name="itemName" 

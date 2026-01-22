@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { useContext, useReducer } from 'react';
 import { UserContext, UserProvider } from './UserContext';
+import updateState from '../../updateState';
 
 export const CategoryPage = () => {
   const {state, dispatch} = useContext(UserContext)
-
   const categoriesLength = Object.keys(state.data).length || 0; 
 
   const handleCategoryClick = (category) => {
-    // setCategory(category)
-    // setView("subcategory");
+    updateState(dispatch, {type: 'category', value: category})
+    updateState(dispatch, {type: 'view', value: "subcategory"})
   }
 
 
-  function renderCategories(categories) {
+  const renderCategories = (categories) => {
     if (categoriesLength > 0 ) {
       const keysArray = Object.keys(categories);
       
@@ -31,28 +31,11 @@ export const CategoryPage = () => {
         </div>
       )
     } 
-    // else {
-    //   return (
-    //     <div id="categories-container"> 
-    //     <div className="ind-category">
-    //       <input 
-    //       placeholder="Category"
-    //       />
-    //       <button>
-    //         <img width="17" height="17" src="https://img.icons8.com/material-outlined/24/checked--v1.png" alt="checked--v1"/>
-    //       </button>
-    //     </div>
-    //     </div>
-    //   )
-    // }
   }
-
-  // if (!state.data) return null;
 
   return (
     <main>
       <div id='category-header'>
-        {/* <button>Back to my Home</button> */}
         <h2 id='title'>My Home</h2>
       </div>
 

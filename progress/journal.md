@@ -1,5 +1,10 @@
 # Home Tracker Progress Journal
-## Januarary 11, 2025
+## January 21, 2026
+- added useReducer to manage data, view, category, subcategory
+- deleted all useState relating to these 4 state variables
+- helps manages the states & don't have to continously pass them into components
+
+## Januarary 11, 2026
 - submitting new item to home tracker updates in local storage 
 - turned items into state variable inside home tracker
   - allows tracker to rerender and show newly added item
