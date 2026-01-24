@@ -1,4 +1,11 @@
 # Home Tracker Progress Journal
+## January 22, 2026
+- able to save & display new item to hometracker
+  - data state variable gets updated to show change when navigating 
+- clear button logic in hometracker added 
+- able to delete items from hometracker
+  - updates change in local storage & in data state variable
+
 ## January 21, 2026
 - added useReducer to manage data, view, category, subcategory
 - deleted all useState relating to these 4 state variables

@@ -15,16 +15,25 @@ export const HomeTracker = () => {
 
   const saveNewItem = (name,newItem, category) => {
     const retrievedDataObject = JSON.parse(localStorage.getItem("hometracker"));
-    // add saved item
+    // add saved item to local storage
     retrievedDataObject.categories[state.category][state.subcategory][name]= newItem;
+    // // update data to include new added item
+    updateState(dispatch, {type: 'data', value: retrievedDataObject.categories})
     const objectAsString = JSON.stringify(retrievedDataObject);
     localStorage.setItem("hometracker",objectAsString);
+    // update items showed
     setItems(retrievedDataObject.categories[state.category][state.subcategory]);
   }
   const editItem = (name, item) => {
     console.log("Editing item...", name, item);
     // implement edit functionality here
-
+    const retrievedDataObject = JSON.parse(localStorage.getItem("hometracker"));
+    delete retrievedDataObject.categories[state.category][state.subcategory][name]
+    updateState(dispatch, {type: 'data', value: retrievedDataObject.categories})
+    const objectAsString = JSON.stringify(retrievedDataObject);
+    localStorage.setItem("hometracker",objectAsString);
+    setItems(retrievedDataObject.categories[state.category][state.subcategory])
+    
   }
 
     useEffect(() => {
@@ -42,9 +51,9 @@ export const HomeTracker = () => {
                 <td><button>Add</button></td>
                 <td>{key}</td>
                 <td>{item.Quantity}</td>
-                <td>{item.LastPurchased}</td>
+                {/* <td>{item.LastPurchased}</td> */}
                 <td><button 
-                      onClick={() => {editItem(key, item)}}>Edit
+                      onClick={() => {editItem(key, item)}}>X
                 </button></td>
               </tr>
             )
@@ -82,11 +91,16 @@ export const HomeTracker = () => {
         "Need": need
       }
       saveNewItem(name, newItem, state.category, state.subcategory);
+      handleClear();
+    }
 
+    const handleClear = () => {
       nameRef.current.value = "";
       quantityRef.current.value = "";
       lastPurchaseRef.current.value = "";
       needRef.current.checked = false;  
+       
+      
     }
 
     return (
@@ -99,7 +113,7 @@ export const HomeTracker = () => {
               <th>Add to List</th>
               <th>Item</th>
               <th>Quantity</th>
-              <th>Last Purchase</th>
+              {/* <th>Last Purchase</th> */}
               {/* <th>Need</th> */}
             </tr>
           </thead>
@@ -134,7 +148,7 @@ export const HomeTracker = () => {
             ref={needRef} 
             />
           <button onClick={handleSave}>Save</button>
-          <button>Clear</button>
+          <button onClick={handleClear}>Clear</button>
         </div>
       </main>
     )
