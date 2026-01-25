@@ -1,4 +1,9 @@
 # Home Tracker Progress Journal
+## January 24, 2026
+- added list state to intial state for use reducer 
+- add button adds item to list state variable and gets updated in local object
+- changed home tracker to only track item name and quantity
+
 ## January 22, 2026
 - able to save & display new item to hometracker
   - data state variable gets updated to show change when navigating 

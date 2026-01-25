@@ -6,6 +6,7 @@ import { SubCategory } from "./SubCategory";
 import { HomeTracker } from "./HomeTracker";
 import { UserContext } from "./UserContext";
 import updateState from "../../updateState";
+import { type } from "@testing-library/user-event/dist/type";
 
 const test = {
   "name": "myHome",
@@ -54,6 +55,13 @@ const test = {
           }
         }
     }
+  },
+  "list": {
+    "testitem": {
+      "category": "category",
+      "subcategory": "subcategory",
+      "quantity": "number"
+    }
   }
 }
 
@@ -68,26 +76,34 @@ export const Home = () => {
     }
   }, []);
 
-  // useEffect(() => { console.log("state.data changed", state.data) }, [state.data]);
-  
+  useEffect(() => { console.log("changed", state.hometracker) }, [state.hometracker]);
+   
+  useEffect(() => {
+      console.log("update ", state.list)
+
+    }, [state.list]); 
+
   const retrieveLocalObject = () => {
     // create local storage object for the first time
     if (localStorage.getItem("hometracker") === null) {
       const localObject = {
         "name": "myHome",
-        "categories": { }
+        "categories": { },
+        "list": {}
       }
       
+      // updateState(dispatch, {type: 'hometracker', value: localObject});
       // convert object to a JSON string
+      updateState(dispatch, {type:"list", value:localObject.list})
       const objectAsString = JSON.stringify(localObject)
-
       // store string in local storage
       localStorage.setItem("hometracker", objectAsString);
       return localObject;
     } else { 
       // retrieve existing local storage object
       const retrievedDataObject = JSON.parse(localStorage.getItem("hometracker"));
-      // console.log("retrievedDataObject", retrievedDataObject)
+      updateState(dispatch, {type:"list", value:retrievedDataObject.list})
+      // updateState(dispatch, {type: 'hometracker', value: retrievedDataObject});
       return retrievedDataObject
     }
   }

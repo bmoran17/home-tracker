@@ -24,8 +24,8 @@ export const HomeTracker = () => {
     // update items showed
     setItems(retrievedDataObject.categories[state.category][state.subcategory]);
   }
-  const editItem = (name, item) => {
-    console.log("Editing item...", name, item);
+    const editItem = (name, item) => {
+    // console.log("Editing item...", name, item);
     // implement edit functionality here
     const retrievedDataObject = JSON.parse(localStorage.getItem("hometracker"));
     delete retrievedDataObject.categories[state.category][state.subcategory][name]
@@ -35,6 +35,22 @@ export const HomeTracker = () => {
     setItems(retrievedDataObject.categories[state.category][state.subcategory])
     
   }
+    const handleAddingtoList = (name, itemDetails) => {
+      let list = state.list;
+
+      list[name] = {
+        category: state.category,
+        subcategory: state.subcategory,
+        quantity: itemDetails.Quantity
+      }
+
+      updateState(dispatch, {type: "list", value: list})
+      const retrievedDataObject = JSON.parse(localStorage.getItem("hometracker"));
+      retrievedDataObject.list = list;
+      const objectAsString = JSON.stringify(retrievedDataObject);
+      localStorage.setItem("hometracker",objectAsString);
+
+    }
 
     useEffect(() => {
       // re-render component when new item is added
@@ -48,7 +64,7 @@ export const HomeTracker = () => {
           {Object.entries(items).map(([key, item]) => {
             return (
               <tr key={key}>
-                <td><button>Add</button></td>
+                <td><button onClick={() => {handleAddingtoList(key, item)}}>Add</button></td>
                 <td>{key}</td>
                 <td>{item.Quantity}</td>
                 {/* <td>{item.LastPurchased}</td> */}
@@ -136,17 +152,17 @@ export const HomeTracker = () => {
             type="text"
             ref={quantityRef} 
             />
-          <input 
+          {/* <input 
             name="itemLastPurchased" 
             placeholder="Last Purchased"
             type="date"
             ref={lastPurchaseRef} 
-            />
-          <input 
+            /> */}
+          {/* <input 
             name="itemNeeded" 
             type="checkbox" 
             ref={needRef} 
-            />
+            /> */}
           <button onClick={handleSave}>Save</button>
           <button onClick={handleClear}>Clear</button>
         </div>
