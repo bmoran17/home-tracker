@@ -3,10 +3,11 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { render } from "@testing-library/react";
 import { UserContext } from "./UserContext";
 import updateState from "../../updateState";
+import { type } from "@testing-library/user-event/dist/type";
 
 export const HomeTracker = () => {
   const {state, dispatch} = useContext(UserContext)
-  const [items, setItems] = useState(state.data[state.category][state.subcategory]);
+  const [items, setItems] = useState(state.data.categories[state.category][state.subcategory]);
 
   const nameRef = useRef(null);
   const quantityRef = useRef(null);
@@ -35,41 +36,56 @@ export const HomeTracker = () => {
     setItems(retrievedDataObject.categories[state.category][state.subcategory])
     
   }
-    const handleAddingtoList = (name, itemDetails) => {
-      let list = state.list;
+    const handleList = (name, itemDetails) => {
+      // console.log("here", itemDetails)
+      let currentList = state.list
 
-      list[name] = {
-        category: state.category,
-        subcategory: state.subcategory,
-        quantity: itemDetails.Quantity
+      // item in list clicked => remove from list, switch - to +
+      if (itemDetails.list) {
+        delete currentList[name];
+        const retrievedDataObject = JSON.parse(localStorage.getItem("hometracker"));
+        retrievedDataObject.list = currentList;
+        retrievedDataObject.categories[state.category][state.subcategory][name].list = false;
+        const objectAsString = JSON.stringify(retrievedDataObject);
+        localStorage.setItem("hometracker",objectAsString);
+        updateState(dispatch, {type: "list", value: currentList});
+        updateState(dispatch, {type: "data", value: retrievedDataObject})
+
+      } else { // item not in list => add to list, switch + to - 
+        currentList[name] = {
+          category: state.category,
+          subcategory: state.subcategory,
+          quantity: itemDetails.Quantity
+        }
+        const retrievedDataObject = JSON.parse(localStorage.getItem("hometracker"));
+        retrievedDataObject.list = currentList;
+        retrievedDataObject.categories[state.category][state.subcategory][name].list = true;
+        const objectAsString = JSON.stringify(retrievedDataObject);
+        localStorage.setItem("hometracker",objectAsString);
+        updateState(dispatch, {type: "list", value: currentList});
+        updateState(dispatch, {type: "data", value: retrievedDataObject})
       }
-
-      updateState(dispatch, {type: "list", value: list})
-      const retrievedDataObject = JSON.parse(localStorage.getItem("hometracker"));
-      retrievedDataObject.list = list;
-      const objectAsString = JSON.stringify(retrievedDataObject);
-      localStorage.setItem("hometracker",objectAsString);
-
     }
 
     useEffect(() => {
-      // re-render component when new item is added
-
-    }, [items]); 
+      console.log("update ", state.list)
+    }, [state.data, state.list]); 
 
     const renderItems = () => {
       console.log("rendering items...");
       return (
         <tbody>
           {Object.entries(items).map(([key, item]) => {
+
             return (
               <tr key={key}>
-                <td><button onClick={() => {handleAddingtoList(key, item)}}>Add</button></td>
+                {item.list && <td><button onClick={() => {handleList(key, item)}}> - </button></td>}
+                {!item.list && <td><button onClick={() => {handleList(key, item)}}> + </button></td>}
                 <td>{key}</td>
                 <td>{item.Quantity}</td>
                 {/* <td>{item.LastPurchased}</td> */}
                 <td><button 
-                      onClick={() => {editItem(key, item)}}>X
+                  onClick={() => {editItem(key, item)}}>X
                 </button></td>
               </tr>
             )

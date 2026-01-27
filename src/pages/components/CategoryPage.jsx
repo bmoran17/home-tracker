@@ -12,6 +12,8 @@ export const CategoryPage = () => {
     updateState(dispatch, {type: 'view', value: "subcategory"})
   }
 
+  // console.log("here", state.data)
+
 
   const renderCategories = (categories) => {
     if (categoriesLength > 0 ) {
@@ -22,7 +24,7 @@ export const CategoryPage = () => {
         {keysArray.map(category => {
           // console.log({ category, items: categories[category] })
           return (
-            <div onClick={() => handleCategoryClick(category)}>
+            <div key={category} onClick={() => handleCategoryClick(category)}>
               {category}
             </div>
 
@@ -59,7 +61,7 @@ export const CategoryPage = () => {
         </button>
       </div>
 
-      {renderCategories(state.data)}
+      {renderCategories(state.data.categories)}
     </main>
   )
 };

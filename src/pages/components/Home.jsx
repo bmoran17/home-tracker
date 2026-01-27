@@ -15,21 +15,25 @@ const test = {
         "spices": {
           "salt": {
             "Quantity": 3,
-            "LastPurchased": "11/19/1111"
+            "LastPurchased": "11/19/1111",
+            "list": false
           },
           "pepper": {
             "Quantity": 3,
-            "LastPurchased": "11/19/1111"
+            "LastPurchased": "11/19/1111",
+            "list": false
           }
         },
         "fridge": {
           "milk": {
             "Quantity": 1,
-            "LastPurchased": "11/19/1111"
+            "LastPurchased": "11/19/1111",
+            "list": false
           },
           "eggs": {
             "Quantity": 12,
-            "LastPurchased": "11/19/1111"
+            "LastPurchased": "11/19/1111",
+            "list": false
           }
       }
     },
@@ -37,51 +41,48 @@ const test = {
         "toiletries": {
           "toothpaste": {
             "Quantity": 2,
-            "LastPurchased": "11/19/1111"
+            "LastPurchased": "11/19/1111",
+            "list": false
           },
           "shampoo": {
             "Quantity": 1,
-            "LastPurchased": "11/19/1111"
+            "LastPurchased": "11/19/1111",
+            "list": false
           }
         },
         "cleaning supplies": {
           "bleach": {
             "Quantity": 1,
-            "LastPurchased": "11/19/1111"
+            "LastPurchased": "11/19/1111",
+            "list": false
           },
           "scrub brush": {
             "Quantity": 2,
-            "LastPurchased": "11/19/1111"
+            "LastPurchased": "11/19/1111",
+            "list": false
           }
         }
     }
   },
   "list": {
-    "testitem": {
-      "category": "category",
-      "subcategory": "subcategory",
-      "quantity": "number"
-    }
   }
 }
 
 export const Home = () => {
   const {state, dispatch} = useContext(UserContext)
+  // console.log("here", state.data)
 
   useEffect(() => {
     if (state.data === 0) {
       // returns local storage object or retrieves existing one
       const retrievedData = retrieveLocalObject();
-      updateState(dispatch, {type: 'data', value: retrievedData.categories})
+      updateState(dispatch, {type: 'data', value: retrievedData})
     }
   }, []);
 
-  useEffect(() => { console.log("changed", state.hometracker) }, [state.hometracker]);
+  // useEffect(() => { console.log("changed", state.hometracker) }, [state.hometracker]);
    
-  useEffect(() => {
-      console.log("update ", state.list)
-
-    }, [state.list]); 
+  
 
   const retrieveLocalObject = () => {
     // create local storage object for the first time

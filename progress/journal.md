@@ -1,4 +1,11 @@
 # Home Tracker Progress Journal
+## January 26, 2026
+- working on add to list logic
+  - currently + means add to list & - means remove from list
+  - clicking on + adds item to list properly & stores on local storage
+  - issue with re-rendering component & changing btw + & - to show change
+  - remove from list still work in progress
+
 ## January 24, 2026
 - added list state to intial state for use reducer 
 - add button adds item to list state variable and gets updated in local object

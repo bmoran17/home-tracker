@@ -8,7 +8,8 @@ import { type } from "@testing-library/user-event/dist/type";
 
 export const SubCategory = () => {
   const {state, dispatch} = useContext(UserContext)
-  const subcategories = state.data[state.category];
+  // console.log("test", state.data.categories[state.category] )
+  const subcategories = state.data.categories[state.category];
   const objectLength = Object.keys(subcategories).length;
     
   const handleSubcategoryClick = (subcategory) => {
@@ -19,13 +20,13 @@ export const SubCategory = () => {
     function renderCategories(category) {
     if (objectLength > 0 ) {
       const keysArray = Object.keys(subcategories);
-      console.log("test", keysArray)
+      // console.log("test", keysArray)
       
       return (
         <div id="categories-container">
          {keysArray.map(category => {
           return (
-            <div onClick={() => handleSubcategoryClick(category)}>
+            <div key={category} onClick={() => handleSubcategoryClick(category)}>
               {category}
             </div>
           )
